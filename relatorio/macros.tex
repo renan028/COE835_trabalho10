@@ -1,0 +1,86 @@
+%----------------------------------------------------------------------
+%
+%   Macros utilizados no LATEX
+%                                                       Ramon R. Costa
+%                                                       13/out/17, Rio
+%----------------------------------------------------------------------
+\newcount\m
+\newcount\n
+
+\def\twodigits#1{\ifnum #1<10 0\fi \number#1}
+
+\def\hours{\n=\time \divide\n 60
+    \m=-\n \multiply\m 60 \advance\m \time
+    \twodigits\n:\twodigits\m}
+
+\def\hora{\hours}
+
+\def\fim{
+  \medskip
+  \begin{center}
+    \rule[1mm]{30mm}{0.14mm}$\diamond$\rule[1mm]{30mm}{0.14mm}
+  \end{center}
+}
+
+%----------------------------------------------------------------------
+% A4 paper size & margins
+\setlength {\textheight}    {25cm}%
+\setlength {\textwidth}     {17.5cm}%
+\setlength {\parindent}     {0mm}%
+\setlength {\parskip}       {1mm}%
+\setlength {\topmargin}     {-14mm}%
+\setlength {\oddsidemargin} {-6mm}%
+\setlength {\evensidemargin}{-6mm}%
+\setlength {\columnsep}     {6mm}%
+
+%----------------------------------------------------------------------
+\def\codigo{COE-835}
+\def\disciplina{Controle adaptativo}
+\def\periodo{3o. período/2017}
+\def\professor{Ramon}
+
+\newcommand{\BOX}[1]{
+  \framebox{{\color{magenta}\rule[-3mm]{1mm}{9mm}} ~~$\displaystyle
+  \begin{aligned} #1 \end{aligned}$~~}\pagestyle{plain}
+}
+
+\newcommand{\RED}[1]{\colorbox{white}{\textcolor{red}{#1}}}
+%\newcommand{\WoR}[1]{\colorbox{red}{\textcolor{white}{#1}}}
+\newcommand{\BLU}[1]{\colorbox{white}{\textcolor{blue}{#1}}}
+\newcommand{\GRE}[1]{\colorbox{green}{\textcolor{black}{#1}}}
+\newcommand{\HI}[1]{\colorbox{yellow}{\textcolor{black}{#1}}}  %% Highlithed text
+
+\newcommand{\estrela}[1]{
+  \def\TXT{\RED{$\bigstar$ }}
+  \hspace*{5mm}\TXT \hfill
+  \parbox[t]{ \textwidth - \widthof{\TXT} - 5mm}{#1}
+  \par
+}
+
+\def\Ltwo{\mbox{${\mathcal L}_2$}}
+\def\Linf{\mbox{${\mathcal L}_\infty$}}
+
+\newcommand{\sign}{\mbox{sign}}
+
+\newcommand{\equacao}[2]{
+  \makebox[40mm][l]{#1 \dotfill}: \quad \parbox[t]{8cm}
+	{\begin{equation} \displaystyle
+  \begin{aligned}
+    #2
+  \end{aligned} \end{equation}} \\
+}
+
+\newcommand{\sref}[1]{Section~\ref{#1}}
+\newcommand{\fref}[1]{Fig.~\ref{#1}}
+\newcommand{\tref}[1]{Table~\ref{#1}}
+\newcommand{\thref}[1]{Theorem~\ref{#1}}
+\newcommand{\aref}[1]{Assumption~\ref{#1}}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+%\renewcommand{\qedsymbol}{}
+\newcommand{\rev}[1]{{\color{red}#1}}
+%\newcommand{\mat}[1]{\begin{bmatrix}#1\end{bmatrix}}
+
+\newtheorem{remark}{Remark}
+\newtheorem{lemma}{Lema}
+
+%----------------------------------------------------------------------

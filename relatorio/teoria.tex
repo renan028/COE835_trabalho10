@@ -1,0 +1,398 @@
+%---------------------------------------------------------------------
+\section{Backstepping - Formulação teórica sem observador}
+
+Backstepping é um método recursivo de controle adaptativo baseado em Lyapunov e
+proposto no começo da década de 90. A ideia é projetar um controle recursivo
+considerando algumas das variáveis de estado como ``controle virtuais'' e
+implementar para elas leis de controle intermediárias. Com esta técnica é
+possível resolver problemas de estabilidade e rastreamento. Neste trabalho,
+desenvolveremos a fundamentação teórica para o caso de um sistema de
+segunda ordem com parâmetros desconhecidos:
+
+\begin{align}
+\dot{x}_1 &= x_2 + \phi_1^\intercal(x_1) \, \theta\\
+\nonumber \dot{x}_2 &= k_p\,u + \phi_2^\intercal(x_1,x_2)\,\theta
+\label{eq:planta}
+\end{align}
+
+onde $\theta$ é o vetor de parâmetros desconhecidos e $k_p$ é o ganho de
+alta frequência, também desconhecido. As não linearidades do sistema são
+representadas pela variável $\phi$. Para o desenvolvimento do algoritmo,
+assume-se:
+
+\begin{itemize}
+  \item o sinal de $k_p$ é conhecido;
+  \item o sinal de referência $y_r$ e suas derivadas são contínuas e limitadas.
+\end{itemize}
+
+Introduzem-se as variáveis $\textbf{z}$ (mudança de coordenadas):
+
+\begin{align}
+z_1 &= x_1 - y_r \\
+\nonumber z_2 &= x_2 - \alpha_1 - \dot{y}_r,
+\end{align}
+
+onde $\alpha$ é a variável de controle virtual. O primeiro passo para a
+elaboração do método é começar pela equação \ref{eq:planta},
+considerando $x_2$ como uma variável de controle virtual. A derivada do erro de
+rastreamento $z_1$ é dada por:
+
+\begin{align}
+\dot{z}_1 &= \dot{x}_1 - \dot{y}_r \\
+\nonumber &= z_2 + \alpha_1 + \phi_1^\intercal\,\theta
+\end{align}
+
+Podemos projetar a primeira função estabilizante $\alpha_1$ como:
+
+\begin{equation}
+\alpha_1 = -c_1z_1 - \phi_1^\intercal\,\hat{\theta},
+\end{equation}
+
+onde $c_1$ é uma constante positiva e $\hat{\theta}$ é uma estimativa de
+$\theta$. Consideremos a função de Lyapunov:
+
+\begin{equation}
+V_1 = \frac{1}{2}z_1^2 +
+\frac{1}{2}\tilde{\theta}^\intercal\,\Gamma^{-1}\,\tilde{\theta},
+\end{equation}
+
+onde $\Gamma$ é uma matriz positiva definida e
+$\tilde{\theta}=\theta-\hat{\theta}$. Derivando a função de Lyapunov, temos:
+
+\begin{align}
+\dot{V}_1 &= z_1\dot{z}_1 -
+\tilde{\theta}^\intercal\,\Gamma^{-1}\,\dot{\hat{\theta}}\\
+\nonumber &=
+z_1(z_2+\alpha_1+\phi_1^\intercal
+\, \hat{\theta})-\tilde{\theta}^\intercal(\Gamma^{-1} \,
+\dot{\hat{\theta}}-\phi_1z_1)\\
+\nonumber &= -c_1z_1^2+\tilde{\theta}^\intercal(\tau_1-\Gamma^{-1} \,
+\dot{\hat{\theta}}) + z_1z_2\\
+\tau_1 &= \phi_1z_1
+\end{align}
+
+Observe que se escolhermos a variação dos parâmetros como
+$\dot{\hat{\theta}}=\Gamma\,\tau_1$ anulamos um dos termos, mas ainda falta
+considerar a dinâmica de $z_2$. Devemos deixar a escolha da lei de adaptação em
+aberto. Pela segunda equação, temos:
+ 
+\begin{align}
+\dot{z}_2 &= k_pu + \phi_2^\intercal \, \theta - \dot{\alpha_1}-\ddot{y}_r \\
+\nonumber &= k_pu + \phi_2^\intercal \, \theta -
+\frac{\partial\alpha_1}{\partial x_1}(x_2 + \phi_1^\intercal \, \theta) -
+\frac{\partial\alpha_1}{\partial \hat{\theta}}\dot{\hat{\theta}} -
+\frac{\partial\alpha_1}{\partial y_r}\dot{y}_r - \ddot{y}_r
+\end{align}
+
+Escolhemos a função Lyapunov:
+
+\begin{align}
+V = V_1 + \frac{1}{2}z_2^2 + \frac{|k_p|}{2\gamma}\tilde{p}^2, 
+\end{align}
+
+onde $\tilde{p}=p-\hat{p}$ e $\hat{p}$ é estimativa de $p = \frac{1}{k_p}$, e
+$\gamma > 0$. Derivando a função Lyapunov, obtemos:
+
+\begin{align}
+\dot{V} &= -c_1z_1^2 + z_1z_2 +
+\tilde{\theta}^\intercal(\tau_1-\Gamma^{-1}\dot{\hat{\theta}}) + z_2\dot{z}_2 +
+\frac{|k_p|}{\gamma}\tilde{p}\dot{\tilde{p}} \notag\\
+\nonumber &= -c_1z_1^2 + z_1z_2 +
+\tilde{\theta}^\intercal(\tau_1-\Gamma^{-1}\dot{\hat{\theta}}) + z_2\left( k_pu
++ \phi_2^\intercal \, \theta - \frac{\partial\alpha_1}{\partial x_1}(x_2 + \phi_1^\intercal \, \theta) -
+\frac{\partial\alpha_1}{\partial \hat{\theta}}\dot{\hat{\theta}} -
+\frac{\partial\alpha_1}{\partial y_r}\dot{y}_r - \ddot{y}_r \right) +
+\frac{|k_p|}{\gamma}\tilde{p}\dot{\tilde{p}} \\
+\theta &= \tilde{\theta} + \hat{\theta} \notag\\
+\dot{V} &= -c_1z_1^2 + z_1z_2 +
+\tilde{\theta}^\intercal(\tau_1-\Gamma^{-1}\dot{\hat{\theta}}) + z_2\left( k_pu
++ (\tilde{\theta}^\intercal + \hat{\theta}^\intercal)(\phi_2 -
+\frac{\partial\alpha_1}{\partial x_1}\phi_1) - \frac{\partial\alpha_1}{\partial
+x_1}x_2 \right. \notag\\
+&\phantom{{}=1} \left. - \frac{\partial\alpha_1}{\partial 
+\hat{\theta}}\dot{\hat{\theta}} - \frac{\partial\alpha_1}{\partial y_r}\dot{y}_r - \ddot{y}_r \right) +
+\frac{|k_p|}{\gamma}\tilde{p}\dot{\tilde{p}} \notag \\
+\tau_2 &= \tau_1 + \left(\phi_2 - \frac{\partial\alpha_1}{\partial x_1}\phi_1
+\right)z_2  \notag \\
+\dot{V} &= -c_1z_1^2 + z_1z_2 +
+\tilde{\theta}^\intercal(\tau_2-\Gamma^{-1}\dot{\hat{\theta}}) + z_2\left( k_pu
++ \hat{\theta}^\intercal(\phi_2 -
+\frac{\partial\alpha_1}{\partial x_1}\phi_1) - \frac{\partial\alpha_1}{\partial
+x_1}x_2 \right. \notag\\
+&\phantom{{}=1} \left. - \frac{\partial\alpha_1}{\partial 
+\hat{\theta}}\dot{\hat{\theta}} - \frac{\partial\alpha_1}{\partial y_r}\dot{y}_r - \ddot{y}_r \right) +
+\frac{|k_p|}{\gamma}\tilde{p}\dot{\tilde{p}} \notag \\
+\label{eq:dotV} 
+\end{align}
+
+
+Escolhemos a lei de controle:
+\begin{align}
+u &= \hat{p}\bar{u}\\
+\bar{u} &= \alpha_2 + \ddot{y}_r
+\end{align}
+
+Note que:
+\begin{equation}
+ k_pu = k_p\hat{p}\bar{u}=\bar{u} - k_p\tilde{p}\bar{u}
+ \label{eq:kpu}
+\end{equation}
+
+Substituindo a eq.\ref{eq:kpu} em eq.\ref{eq:dotV}, temos:
+
+\begin{align}
+\dot{V} &= -c_1z_1^2 + z_1z_2 +
+\tilde{\theta}^\intercal(\tau_2-\Gamma^{-1}\dot{\hat{\theta}}) + z_2\left( \bar{u} - k_p\tilde{p}\bar{u}
++ \hat{\theta}^\intercal(\phi_2 -
+\frac{\partial\alpha_1}{\partial x_1}\phi_1) - \frac{\partial\alpha_1}{\partial
+x_1}x_2 \right. \notag\\
+&\phantom{{}=1} \left. - \frac{\partial\alpha_1}{\partial 
+\hat{\theta}}\dot{\hat{\theta}} - \frac{\partial\alpha_1}{\partial y_r}\dot{y}_r - \ddot{y}_r \right) +
+\frac{|k_p|}{\gamma}\tilde{p}\dot{\tilde{p}} \notag \\
+&= -c_1z_1^2 + z_1z_2 +
+\tilde{\theta}^\intercal(\tau_2-\Gamma^{-1}\dot{\hat{\theta}}) + z_2\left( \bar{u} 
++ \hat{\theta}^\intercal(\phi_2 -
+\frac{\partial\alpha_1}{\partial x_1}\phi_1) - \frac{\partial\alpha_1}{\partial
+x_1}x_2 \right. \notag\\
+&\phantom{{}=1} \left. - \frac{\partial\alpha_1}{\partial 
+\hat{\theta}}\dot{\hat{\theta}} - \frac{\partial\alpha_1}{\partial y_r}\dot{y}_r - \ddot{y}_r \right) +
+\frac{|k_p|}{\gamma}\tilde{p}\,\left(\dot{\tilde{p}}-\text{sign}(k_p)\gamma\bar{u}z_2
+\right)
+\\
+\nonumber &= -c_1z_1^2 + z_1z_2 +
+\tilde{\theta}^\intercal(\tau_2-\Gamma^{-1}\dot{\hat{\theta}}) + z_2\left( \alpha_2
++ \hat{\theta}^\intercal(\phi_2 -
+\frac{\partial\alpha_1}{\partial x_1}\phi_1) - \frac{\partial\alpha_1}{\partial
+x_1}x_2 \right. \notag\\
+&\phantom{{}=1} \left. - \frac{\partial\alpha_1}{\partial 
+\hat{\theta}}\dot{\hat{\theta}} - \frac{\partial\alpha_1}{\partial y_r}\dot{y}_r
+\right) - \frac{|k_p|}{\gamma}\tilde{p} \,
+\left(\dot{\hat{p}}+\text{sign}(k_p)\gamma\bar{u}z_2\right)
+\label{eq:dotV2}
+\end{align}
+
+Escolhemos $\alpha_2$ como:
+
+\begin{equation}
+\alpha_2 = -c_2z_2 - z_1 - \hat{\theta}^\intercal(\phi_2 -
+\frac{\partial\alpha_1}{\partial x_1}\phi_1) + \frac{\partial\alpha_1}{\partial
+x_1}x_2 + \frac{\partial\alpha_1}{\partial \hat{\theta}}\dot{\hat{\theta}} +
+\frac{\partial\alpha_1}{\partial y_r} \dot{y}_r
+\label{eq:alpha2}
+\end{equation}
+
+Substituindo a eq.\ref{eq:alpha2} em eq.\ref{eq:dotV2}, obtemos:
+
+\begin{align}
+\dot{V} &= -c_1z_1^2 -c_2z_2^2 +
+\tilde{\theta}^\intercal(\tau_2-\Gamma^{-1}\dot{\hat{\theta}}) -
+\frac{|k_p|}{\gamma}\tilde{p} \,
+\left(\dot{\hat{p}}+\text{sign}(k_p)\gamma\bar{u}z_2\right)
+\end{align}
+
+A lei de atualização dos parâmetros é, portanto:
+
+\begin{align}
+\dot{\hat{p}} &= -\gamma\text{sign}(k_p)\bar{u}z_2 \\
+\dot{\hat{\theta}} &= \Gamma\tau_2 
+\end{align}
+
+\section{Backstepping - Formulação teórica com observador}
+
+Neste trabalho, consideramos o sistema:
+
+\begin{align}
+\dot{x}_1 &= x_2 - a_1y\\
+\nonumber \dot{x}_2 &= k_p\,u - a_0y
+\label{eq:planta2}
+\end{align}
+
+onde os parâmetros $a_1$, $a_0$ e $k_p$ são desconehcidos. Para esta formulação
+apenas a saída do sistema $y$ está disponível, portanto $x_2$ não é conhecido e
+deve ser estimado. Podemos reescrever o sistema \ref{eq:planta2}:
+
+\begin{align}
+\nonumber \dot{x} &= Ax - F(y,u)^\intercal\theta \\
+A &= 
+\begin{bmatrix}
+0 & 1\\
+0 & 0
+\end{bmatrix}, F(y,u)^\intercal = 
+\nonumber \begin{bmatrix}
+B(u) & \Phi(y)
+\end{bmatrix}, \Phi(y) = 
+\begin{bmatrix}
+-y & 0\\
+0 & -y
+\end{bmatrix}, B(u) = 
+\begin{bmatrix}
+0\\
+u
+\end{bmatrix}, \theta =
+\begin{bmatrix}
+k_p \\
+a_1 \\
+a_0
+\end{bmatrix} \\
+\nonumber y &= e_1^\intercal x \\
+\nonumber e_1 &= 
+\begin{bmatrix}
+1 \\
+0
+\end{bmatrix} \\
+\end{align}
+
+Para estimar os estados, utilizamos os filtros abaixo:
+
+\begin{align}
+\label{eq:filtros2}
+\dot{\xi} &= A_0\xi + ky \\
+\nonumber \dot{\Omega}^\intercal &= A_0\Omega^\intercal + F^\intercal\\
+\nonumber k &=
+\begin{bmatrix}
+k_1\\k_2
+\end{bmatrix}, A_0 = A - ke_1^\intercal =  
+\begin{bmatrix}
+-k_1 & 1\\-k_2 & 0
+\end{bmatrix}
+\end{align}
+
+Os valores de $k$ devem ser escolhidos de forma que $A_0$ seja Hurwitz. E, dessa
+forma, o estado estimado pode ser escrito como:
+
+\begin{align}\label{eq:estimador}
+\hat{x} = \xi + \Omega^\intercal\theta
+\end{align}
+
+Derivando a equação \ref{eq:estimador} e substituindo as equações dos
+filtros \ref{eq:filtros2}, verifica-se que a dinâmica do estimador é igual à
+dinâmica da planta \ref{eq:planta2}.
+
+Porém, $\Omega$ é uma matriz e opta-se pela redução das ordens dos
+filtros. Observe que $\Omega^\intercal = \left[v_0 \quad | \quad \Xi\right]$ e,
+pela equação ~\ref{eq:filtros2}, temos que:
+
+\begin{align}
+\dot{v}_0 &= A_0v_0 + e_2u \\
+\dot{\Xi} &= A_0\Xi - Iy
+\end{align}
+
+Introduzem-se dois novos filtros, para substituir os filtros da
+equação~\ref{eq:filtros2}:
+
+\begin{align}
+\dot{\lambda} &= A_0\lambda + e_2u \\
+\dot{\eta} &= A_0\eta + e_2y
+\end{align}
+
+É fácil verificar que, para esta planta de segunda ordem sem zeros ($m=0$), $v_0
+= \lambda$. Para o caso geral, temos que:
+
+\begin{align}
+\dot{\lambda} &= A_0\lambda + e_2u \\
+v_i &= A_0^i\lambda \quad (i=0,\ldots,m)
+\end{align}
+
+É possível demonstrar que:
+\begin{align}
+\Xi &= -\left[A_0\eta \quad \eta\right] \\
+\xi &= -A_0^2\eta
+\end{align}
+
+Podemos reescrever a dinâmica da saída $y$:
+
+\begin{align}
+\dot{y} &= x_2 + \phi^\intercal\theta\\
+\nonumber &= k_pv_{0,2} + \xi_2 + \bar{\omega}^\intercal\theta + \epsilon_2 \\
+\nonumber \bar{\omega}^\intercal &= 
+\begin{bmatrix}
+0 & (\Xi_2+\phi_1^\intercal)
+\end{bmatrix}
+\end{align}
+
+Desta forma, o sistema \ref{eq:planta2} pode ser representado com os estados do
+observador:
+\begin{align}
+\dot{y} &= k_pv_{0,2} + \xi_2 + \bar{\omega}^\intercal\theta + \epsilon_2\\
+\nonumber \dot{v}_{0,2} &= u - k_2v_{0,1}\\
+\end{align}
+
+O projeto backstepping agora segue como na seção anterior. Primeiro, fazemos a
+mudança de coordenadas em \textbf{z}:
+
+\begin{align}
+z_1 &= y - y_r \\
+\nonumber z_2 &= v_{0,2} - \alpha_{1} - \hat{\rho}\dot{y_r}
+\end{align}
+
+onde $\rho$ é estimativa de $\frac{1}{k_p}$. O controle virtual $\alpha_1$, a
+lei de controle $u$ e as leis de adaptação $\dot{\theta}$ e $\dot{\rho}$ são
+obtidas pelo método de Lyapunov. Derivando $z_1$, obtemos:
+
+\begin{align}
+\dot{z}_1 &= k_p\alpha_1 + \xi_2 + \bar{\omega}^\intercal\theta + \epsilon_2 -
+k_p\tilde{\rho}\dot{y}_r+k_pz_2 \\
+\alpha_1 &= \hat{\rho}\bar{\alpha}_1\\
+\dot{z}_1 &= \bar{\alpha}_1 + \xi_2 + \bar{\omega}^\intercal\theta + \epsilon_2
+- k_p(\dot{y}_r + \bar{\alpha}_1)\tilde{\rho} + k_pz_2
+\end{align}
+
+E escolhemos a primeira função estabilizante:
+\begin{align}
+\bar{\alpha}_1 = -c_1z_1-d_1z_1-\xi_2-\bar{\omega}^\intercal\hat{\theta}
+\end{align}
+
+A dinâmica de $z_1$ pode ser reescrita como:
+\begin{align}
+\dot{z}_1 =
+-c_1z_1-d_1z_1+\epsilon_2+\left[\omega-\hat{\rho}(\dot{y}_r
++ \bar{\alpha}_1)e_1\right]^\intercal\tilde{\theta} -
+k_p(\dot{y}_r+\bar{\alpha}_1)\tilde{\rho} + \hat{k}_pz_2
+\end{align}
+
+Escolhe-se a função de Lyapunov:
+
+\begin{align}
+2V_1 = z_1^2 +
+\tilde{\theta}^\intercal\Gamma^{-1}\tilde{\theta}+|k_p|\gamma^{-1}\tilde{\rho}^2
++ \frac{1}{2d_1}\epsilon^\intercal P\epsilon
+\end{align}
+
+Nessas condições, é possível que a atualização de $\hat{\rho}$ é dada pela
+equação:
+
+\begin{align}
+\hat{\rho} &= -\gamma z_1 \text{sign}(k_p)(\dot{y}_r + \bar{\alpha}_1)
+\end{align}
+
+Derivando $z_2$, obtemos:
+
+\begin{align}
+\dot{z}_2 &= \dot{v}_{0,2} - \hat{\rho}\ddot{y}_r - \dot{\hat{\rho}}\dot{y}_r -
+\dot{\alpha}_1 \\
+&= u - k2v_{0,1} - \hat{\rho}\ddot{y}_r - \beta -
+\frac{\partial\alpha_1}{\partial y}(\omega^\intercal\tilde{\theta} + \epsilon_2)
+- \frac{\partial\alpha_1}{\partial\hat{\theta}}\dot{\hat{\theta}} \\
+\beta &= k_2v_{0,1} + \frac{\partial\alpha_1}{\partial y}(\xi_2 +
+\omega^\intercal\hat{\theta}) + \frac{\partial \alpha_1}{\partial \eta}
+(A_0\eta + e_2y) + \frac{\partial \alpha_1}{\partial y_r} \dot{y}_r +
+(\dot{y}_r + \frac{\partial \alpha_1}{\partial \hat{\rho}})\dot{\hat{\rho}}
+\end{align}
+
+Escolhe-se a função de Lyapunov:
+
+\begin{align}
+V_2 = V_1 + \frac{1}{2}z_2^2 + \frac{1}{4d_2}\epsilon^\intercal P\epsilon
+\end{align}
+
+É possível mostrar que a atualização de parâmetros e a lei de controle são:
+
+\begin{align}
+\hat{\theta} &= \Gamma\tau_2 \\
+\tau_1 &= (\omega - \hat{\rho}(\dot{y}_r + \bar{\alpha}_1)e_1)z_1 \\
+\tau_2 &= \tau_1 - z_2 \frac{\partial \alpha_1}{\partial y} \omega \\
+u &= -c_2z_2 + \beta + \hat{\rho}\ddot{y}_r + \frac{\partial \alpha_1}{\partial
+\hat{\theta}}\hat{\theta} - d_2z_2\left( \frac{\partial \alpha_1}{\partial
+y}\right)^2 - \hat{k}_pz_1
+\end{align}
+

@@ -1,0 +1,171 @@
+%---------------------------------------------------------------------
+\section{Resultados das simulações}
+
+Nas simulações, procuramos avaliar o comportamento do sistema para as seguintes condições:
+%
+\begin{enumerate*}[label=(\roman*)]
+\item condições iniciais $\theta(0)$ e $y(0)$;
+\item Parâmetros da planta e do modelo;
+\item ganho de adaptação $\Gamma$.
+\end{enumerate*}
+
+Apresentaremos os resultados obtidos através de simulações no ambiente \HI{\texttt{Matlab/Simulink}} e os discutiremos na próxima seção.
+
+\subsection{Simulação \#1}
+
+Inicialmente, desejamos verificar o comportamento do sistema para variações nas
+condições iniciais.
+
+\bigskip
+
+\textbf{\underline{Simulação 1.1}: $\theta(0)$}
+%
+\begin{align*}
+  y &= \frac{5}{s^2+2s+1}u\,,  &  \theta(0) &= \HI{0} \, \textrm{e} \, \HI{1}\,,
+  & y(0) &= 0 \,, & \Gamma &= 1 \, \textbf{I}_3\,, \\ y_r &= \textrm{sin}(t) +
+  \textrm{sin}(3t) \, .
+\end{align*}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=12cm]{figs/e0/sim0_theta0.eps} 
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=12cm]{figs/modtheta/sim0_theta0.eps} 
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=12cm]{figs/tiltheta/sim0_theta0.eps} 
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=12cm]{figs/y/sim0_theta0.eps} 
+\end{figure}
+
+\textbf{\underline{Simulação 1.2}: $y(0)$}
+%
+\begin{align*}
+  y &= \frac{5}{s^2+2s+1}u\,,  &  \theta(0) &= 0 \,,
+  & y(0) &=  \HI{0} \, \textrm{e} \, \HI{5} \,, & \Gamma &= 1 \,
+  \textbf{I}_3\,, \\ y_r &= \textrm{sin}(t) + \textrm{sin}(3t) \, .
+\end{align*}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=12cm]{figs/e0/sim0_y.eps} 
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=12cm]{figs/modtheta/sim0_y.eps} 
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=12cm]{figs/tiltheta/sim0_y.eps} 
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=12cm]{figs/y/sim0_y.eps} 
+\end{figure}
+
+\subsection{Simulação \#2}
+
+Verificamos o comportamento do sistema para variações no parâmetro de adaptação
+$\Gamma$.
+
+\bigskip
+
+\begin{align*}
+  y &= \frac{5}{s^2+2s+1}u\,,  &  \theta(0) &= 0 \,,
+  & y(0) &=  0 \,, & \Gamma &= \HI{1} \, \textrm{e} \, \HI{5} \,
+  \textbf{I}_3\,, \\ y_r &= \textrm{sin}(t) + \textrm{sin}(3t) \, .
+\end{align*}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=12cm]{figs/e0/sim0_gamma1gamma5.eps} 
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=12cm]{figs/modtheta/sim0_gamma1gamma5.eps} 
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=12cm]{figs/tiltheta/sim0_gamma1gamma5.eps} 
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=12cm]{figs/y/sim0_gamma1gamma5.eps} 
+\end{figure}
+
+\subsection{Simulação \#3}
+
+Verificamos o comportamento do sistema para variações na planta e modelo.
+
+\bigskip
+
+\textbf{\underline{Simulação 3.1}: planta}
+%
+\begin{align*}
+  y &= \frac{5}{s^2+2s+1}u\, \textrm{e} \, \frac{5}{s^2-2s+1}u,  &  \theta(0) &=
+  0 \,, & y(0) &=  0 \,, & \Gamma &= 1 \,
+  \textbf{I}_3\,, \\ y_r &= \textrm{sin}(t) + \textrm{sin}(3t) \, .
+\end{align*}
+
+\begin{figure}[H] 
+  \centering
+  \includegraphics[width=12cm]{figs/e0/sim0_P1P2.eps} 
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=12cm]{figs/modtheta/sim0_P1P2.eps} 
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=12cm]{figs/tiltheta/sim0_P1P2.eps} 
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=12cm]{figs/y/sim0_P1P2.eps} 
+\end{figure}
+
+\textbf{\underline{Simulação 3.2}: modelo}
+%
+\begin{align*}
+  y &= \frac{5}{s^2+2s+1}u\, &  \theta(0) &=
+  0 \,, & y(0) &=  0 \,, & \Gamma &= 1 \,
+  \textbf{I}_3\,, \\ y_r &= \textrm{sin}(t) + \textrm{sin}(3t) \, \textrm{e} \,
+  \textrm{sin}(t) + \textrm{2sin}(5t) .
+\end{align*}
+ 
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=12cm]{figs/e0/sim0_yr1yr2.eps} 
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=12cm]{figs/modtheta/sim0_yr1yr2.eps} 
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=12cm]{figs/tiltheta/sim0_yr1yr2.eps} 
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=12cm]{figs/y/sim0_yr1yr2.eps} 
+\end{figure}
