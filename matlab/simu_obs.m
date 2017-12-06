@@ -33,6 +33,8 @@ d3 = d3_1;
 Gamma = Gamma_1*eye(4);
 gamma = gamma_1;
 
+run('partial.m');
+
 % Initialization
 X0  = X0_1;
 theta0 = theta0_1;
@@ -73,6 +75,8 @@ d2 = d2_1;
 d2 = c3_1;
 Gamma = Gamma_2*eye(4);
 gamma = gamma_2;
+
+run('partial.m');
 
 % Initialization
 X0  = X0_1;
