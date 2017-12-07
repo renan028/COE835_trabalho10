@@ -53,9 +53,9 @@ switch changed
         file_name = 'y01y02';
         
     case 5
-        str1 = '$y(0)_1$';
-        str2 = '$y(0)_2$';
-        file_name = 'y0';
+        str1 = '$\theta(0)_1$';
+        str2 = '$\theta(0)_2$';
+        file_name = 'theta0';
         
         
 end

@@ -7,7 +7,7 @@ PRINT = true;
 %PRINT = false;
 
 %Simulation time
-tfinal = 5;
+tfinal = 100;
 
 % Unit vectors
 e1 = [1 0 0]';
@@ -28,18 +28,18 @@ Z_1 = [1];
 P_1 = [1 3 3 1];
 thetas_1 = [kp_1 P_1(2) P_1(3) P_1(4)]';
 
-k_1 = [1 1 1]';
+k_1 = [3 3 3]';
 
 %Initial conditions
 X0_1  = [0 0 0]';
-theta0_1 = [0 0 0 0]';
+theta0_1 = [1 0 0 0]';
 lambda0_1 = [0 0 0]';
 eta0_1 = [0 0 0]';
 rho0_1 = 1;
 
 %Adaptation gain
-Gamma_1 = 1;
-gamma_1 = 1;
+Gamma_1 = 0.5;
+gamma_1 = 0.5;
 c1_1 = 1;
 c2_1 = 1;
 c3_1 = 1;
@@ -50,21 +50,24 @@ d3_1 = 1;
 
 kp_2 = 5;
 Z_2 = [1];
-P_2 = [1 3 3 1];
+P_2 = [1 -3 -3 1];
 thetas_2 = [kp_2 P_2(2) P_2(3) P_2(4)]';
 
-k_2 = [1 1 1]';
+k_2 = [3 3 3]';
 
 %Initial conditions
-X0_2  = [0 0 0]';
+X0_2  = [3 0 0]';
 theta0_2 = [1 1 1 1]';
 lambda0_2 = [0 0 0]';
 eta0_2 = [0 0 0]';
 rho0_2 = 1;
 
+a2 = [1 2];
+w2 = [1 5];
+
 %Adaptation gain
-Gamma_2 = 1;
-gamma_2 = 1;
+Gamma_2 = 0.1;
+gamma_2 = 0.1;
 c1_2 = 1;
 c2_2 = 1;
 c3_2 = 1;
