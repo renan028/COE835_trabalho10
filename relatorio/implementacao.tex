@@ -3,32 +3,18 @@
 Para a implementação, só é preciso computar os filtros:
 
 \begin{align}
-\dot{\lambda} &= A_0\lambda + e_2u \\
-\dot{\eta} &= A_0\eta + e_2y
+\dot{\lambda} &= A_0\lambda + e_3u \\
+\dot{\eta} &= A_0\eta + e_3y
 \end{align}
 
-Pois é possível demonstrar que:
-
-\begin{align}
-\Xi &= -\left[A_0\eta \quad \eta \right] \\
-\xi &= -A_0\eta \\
-v_0 &= \lambda
-\end{align} 
-
-Temos ainda que $\alpha =
-\hat{\rho}(-c_1z_1-d_1z_1-\xi_2-\bar{\omega}^\intercal\hat{\theta})$. Logo:
-\begin{align}
-\frac{\partial \alpha_1}{\partial y} &= -\hat{\rho}(c_1 + d_1) +
-\hat{\rho}e_2^\intercal\hat{\theta}\\
-\frac{\partial \alpha_1}{\partial \eta}\frac{\text{d}\eta}{\text{d}t} &=
-\hat{\rho}\left(e_2^\intercal A_0^2\frac{\text{d}\eta}{\text{d}t} +
-\left[0 \quad e_2^\intercal A_0\frac{\text{d}\eta}{\text{d}t}
-\quad e_2^\intercal
-I_2\frac{\text{d}\eta}{\text{d}t}\right]\hat{\theta}\right)\\
-\frac{\partial \alpha_1}{\partial y_r} &= \hat{\rho}(c_1 + d_1)\\
-\frac{\partial \alpha_1}{\partial \hat{\theta}} &= - \rho\bar{\omega} \\
-\frac{\partial \alpha_1}{\partial \hat{\rho}} &= -(c_1+d_1)(y-y_r) +
-e_2^\intercal A_0\eta -\bar{\omega}^\intercal \hat{\theta}
-\end{align}
+Mas é preciso, ainda, computar todas as derivadas parciais das variáveis de
+controle virtuais. Essas derivadas podem ser calculadas previamente ou pode-se
+utilizar MatLab simbólico e pedir ao programa a solução das equações parciais. O
+MatLab, porém, ainda não é capaz de realizar eficientemente derivadas parciais
+em vetores e não simplifica as equações de forma a otimizar o desempenho.
+Verificou-se ainda, que muitas vezes ocorre overflow indevido, justamente por
+causa da não ssimplificação das equações. Dessa forma, optou-se por derivar
+cada equação. Todas as derivadas parciais estão representadas nas linhas de
+código abaixo:
 
 \lstinputlisting[style=myMatlab]{../matlab/backstepping_obs.m} 

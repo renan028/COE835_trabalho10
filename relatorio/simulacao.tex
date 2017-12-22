@@ -9,7 +9,8 @@ Nas simulações, procuramos avaliar o comportamento do sistema para as seguintes 
 \item ganho de adaptação $\Gamma$.
 \end{enumerate*}
 
-Apresentaremos os resultados obtidos através de simulações no ambiente \HI{\texttt{Matlab/Simulink}} e os discutiremos na próxima seção.
+Apresentaremos os resultados obtidos através de simulações no ambiente
+\HI{\texttt{Matlab/Simulink}} e os discutiremos na próxima seção.
 
 \subsection{Simulação \#1}
 
@@ -21,9 +22,9 @@ condições iniciais.
 \textbf{\underline{Simulação 1.1}: $\theta(0)$}
 %
 \begin{align*}
-  y &= \frac{5}{s^2+2s+1}u\,,  &  \theta(0) &= \HI{0} \, \textrm{e} \, \HI{1}\,,
-  & y(0) &= 0 \,, & \Gamma &= 1 \, \textbf{I}_3\,, \\ y_r &= \textrm{sin}(t) +
-  \textrm{sin}(3t) \, .
+  y &= \frac{5}{s^3+3s^2+3s+1}u\,,  &  \theta(0) &= \HI{0} \, \textrm{e} \,
+  \HI{1}\,, & y(0) &= 0 \,, & \Gamma &= 0.5 \\ y_r &=
+  \textrm{sin}(t) + \textrm{sin}(3t) \, & k &= [3 \quad 3 \quad 3].
 \end{align*}
 
 \begin{figure}[H]
@@ -49,29 +50,29 @@ condições iniciais.
 \textbf{\underline{Simulação 1.2}: $y(0)$}
 %
 \begin{align*}
-  y &= \frac{5}{s^2+2s+1}u\,,  &  \theta(0) &= 0 \,,
-  & y(0) &=  \HI{0} \, \textrm{e} \, \HI{5} \,, & \Gamma &= 1 \,
-  \textbf{I}_3\,, \\ y_r &= \textrm{sin}(t) + \textrm{sin}(3t) \, .
+  y &= \frac{5}{s^3+3s^2+3s+1}u\,,  &  \theta(0) &= 0 \,,
+  & y(0) &=  \HI{0} \, \textrm{e} \, \HI{3} \,, & \Gamma &= 0.5 \\ y_r &= \textrm{sin}(t) + \textrm{sin}(3t) \, & k &= [3
+  \quad 3 \quad 3].
 \end{align*}
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=12cm]{figs/e0/sim0_y.eps} 
+  \includegraphics[width=12cm]{figs/e0/sim0_y0.eps} 
 \end{figure}
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=12cm]{figs/modtheta/sim0_y.eps} 
+  \includegraphics[width=12cm]{figs/modtheta/sim0_y0.eps} 
 \end{figure}
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=12cm]{figs/tiltheta/sim0_y.eps} 
+  \includegraphics[width=12cm]{figs/tiltheta/sim0_y0.eps} 
 \end{figure}
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=12cm]{figs/y/sim0_y.eps} 
+  \includegraphics[width=12cm]{figs/y/sim0_y0.eps} 
 \end{figure}
 
 \subsection{Simulação \#2}
@@ -82,29 +83,29 @@ $\Gamma$.
 \bigskip
 
 \begin{align*}
-  y &= \frac{5}{s^2+2s+1}u\,,  &  \theta(0) &= 0 \,,
-  & y(0) &=  0 \,, & \Gamma &= \HI{1} \, \textrm{e} \, \HI{5} \,
-  \textbf{I}_3\,, \\ y_r &= \textrm{sin}(t) + \textrm{sin}(3t) \, .
+  y &= \frac{5}{s^3+3s^2+3s+1}u\,,  &  \theta(0) &= 0 \,,
+  & y(0) &=  0 \,, & \Gamma &= \HI{0.1} \, \textrm{e} \, \HI{0.5} \,, \\ y_r &=
+  \textrm{sin}(t) + \textrm{sin}(3t) \, & k &= [3 \quad 3 \quad 3].
 \end{align*}
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=12cm]{figs/e0/sim0_gamma1gamma5.eps} 
+  \includegraphics[width=12cm]{figs/e0/sim0_gamma01gamma05.eps} 
 \end{figure}
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=12cm]{figs/modtheta/sim0_gamma1gamma5.eps} 
+  \includegraphics[width=12cm]{figs/modtheta/sim0_gamma01gamma05.eps} 
 \end{figure}
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=12cm]{figs/tiltheta/sim0_gamma1gamma5.eps} 
+  \includegraphics[width=12cm]{figs/tiltheta/sim0_gamma01gamma05.eps} 
 \end{figure}
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=12cm]{figs/y/sim0_gamma1gamma5.eps} 
+  \includegraphics[width=12cm]{figs/y/sim0_gamma01gamma05.eps} 
 \end{figure}
 
 \subsection{Simulação \#3}
@@ -116,9 +117,10 @@ Verificamos o comportamento do sistema para variações na planta e modelo.
 \textbf{\underline{Simulação 3.1}: planta}
 %
 \begin{align*}
-  y &= \frac{5}{s^2+2s+1}u\, \textrm{e} \, \frac{5}{s^2-2s+1}u,  &  \theta(0) &=
-  0 \,, & y(0) &=  0 \,, & \Gamma &= 1 \,
-  \textbf{I}_3\,, \\ y_r &= \textrm{sin}(t) + \textrm{sin}(3t) \, .
+  y &= \HI{$\frac{5}{s^3+3s^2+3s+1}$}u\, \textrm{e} \,
+  \HI{$\frac{5}{s^3-3s^2-3s+1}$}u, & \theta(0) &= 0 \,, & y(0) &=  0 \,, &
+  \Gamma &= 0.5 \\ y_r &= \textrm{sin}(t) + \textrm{sin}(3t) \,
+  & k &= [3 \quad 3 \quad 3].
 \end{align*}
 
 \begin{figure}[H] 
@@ -144,10 +146,10 @@ Verificamos o comportamento do sistema para variações na planta e modelo.
 \textbf{\underline{Simulação 3.2}: modelo}
 %
 \begin{align*}
-  y &= \frac{5}{s^2+2s+1}u\, &  \theta(0) &=
-  0 \,, & y(0) &=  0 \,, & \Gamma &= 1 \,
-  \textbf{I}_3\,, \\ y_r &= \textrm{sin}(t) + \textrm{sin}(3t) \, \textrm{e} \,
-  \textrm{sin}(t) + \textrm{2sin}(5t) .
+  y &= \frac{5}{s^3+3s^2+3s+1}u\, &  \theta(0) &=
+  0 \,, & y(0) &=  0 \,, & \Gamma &= 0.5 \,, \\ y_r &= \HI{$\textrm{sin}(t) +
+  \textrm{sin}(3t)$} \, \textrm{e} \, \HI{$\textrm{sin}(t) + \textrm{2sin}(5t)$}
+  .
 \end{align*}
  
 \begin{figure}[H]
