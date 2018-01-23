@@ -140,29 +140,39 @@ neste relatório fazemos o resumo das equações:
 \begin{align*}
 \alpha_1 &= \hat{\rho}\bar{\alpha}_1 = \hat{\rho}(-c_1z_1 - d_1z_1 - \xi_2 -
 \bar{\omega}^\intercal\hat{\theta})\\
+%
 \dot{\hat{\rho}} &= -\gamma
 \text{sign}(k_p)\left[\dot{y}_r+\bar{\alpha}_1\right]z_1 \\
+%
 \tau_1 &= \left[\omega-\hat{\rho}(\dot{y}_r+\bar{\alpha}_1)e_1\right]z_1\\
+%
 \beta_2 &= k_2v_{0,1} + \frac{\partial \alpha_1}{\partial y}(\xi_2 +
 \omega^\intercal \hat{\theta}) + \frac{\partial \alpha_1}{\partial
 \eta}(A_0\eta + e_3 y) + \frac{\partial \alpha_1}{\partial y_r}\dot{y}_r +
 \left(\dot{y}_r+\frac{\partial \alpha_1}{\partial
 \hat{\rho}}\right)\dot{\hat{\rho}}\\
+%
 \tau_2 &= \tau_1 - \frac{\partial \alpha_1}{\partial y}\omega z_2 \\
+%
 \alpha_2 &= -c_2z_2 - \hat{k}_pz_1 + \beta_2 + \frac{\partial
 \alpha_1}{\partial \hat{\theta}}\Gamma \tau_2 - d_2
 \left(\frac{\partial \alpha_1}{\partial y}\right)^2z_2 \\
+%
 \beta_3 &= k_3v_{0,1} + \frac{\partial \alpha_2}{\partial y}(\xi_2 +
 \omega^\intercal \hat{\theta}) + \frac{\partial \alpha_2}{\partial
 \eta}(A_0\eta + e_3 y) + \frac{\partial \alpha_2}{\partial
 \lambda_1}(-k_1\lambda_1+\lambda_2) + \frac{\partial
 \alpha_2}{\partial\lambda_2}(-k_2\lambda_2+\lambda_3) +\\
+%
 &+ \frac{\partial
 \alpha_2}{\partial y_r}\dot{y}_r +\frac{\partial
 \alpha_2}{\partial \dot{y}_r}\ddot{y}_r +
 \left(\ddot{y}_r+\frac{\partial\alpha_2}{\partial\hat{\rho}}\right)\dot{\hat{\rho}}\\
-\tau__3 &= \tau_2 - \frac{\partial \alpha_2}{\partial y}\omega z_3\\
+%
+\tau_3 &= \tau_2 - \frac{\partial \alpha_2}{\partial y}\omega z_3\\
+%
 \dot{\hat{\theta}} &= \Gamma\tau_3 \\
+%
 u &= -c_3z_3 + \beta_3 + \hat{\rho}\dddot{y}_r +
 \frac{\partial\alpha_2}{\partial \hat{\theta}}\Gamma\tau_3 -
 d_3\left(\frac{\partial\alpha_2}{\partial y}\right)^2z_3 - z_2
