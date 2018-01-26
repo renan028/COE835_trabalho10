@@ -175,3 +175,4 @@ sympy-plots-for-*.tex/
 
 #MATLAB
 *.asv
+/relatorio/

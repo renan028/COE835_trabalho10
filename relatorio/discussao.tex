@@ -1,3 +1,30 @@
 %---------------------------------------------------------------------
 \section{Discussão}
 
+Conforme aumentamos a ordem do Backstepping, as derivadas parciais crescem em
+grande complexidade, o que requer grande trabalho manual para otimizar o
+algoritmo. Além disso, o aumento do número de multiplicações e de novos termos
+impede que a simulação seja rápida. Verificou-se também a necessidade da
+diminuição do ganho de adaptação, se comparado com outros agoritmos como o MRAC,
+devido às multiplicações e possível overflow numérico.
+
+A \textbf{simulação \#1} testou o sistema para condições iniciais não nulas
+tanto dos parâmetros $\theta$, quando do sistema $y(0)$. Observou-se a
+convergência do erro $e_0$ para zero. Os parâmetros convergiram para valores
+próximos aos valores esperados.
+
+A \textbf{simulação \#2} testou o sistema para diferentes valores de
+ganho de adaptação: $\Gamma = 0.1$ e $\Gamma = 0.5$. Para o maior valor,
+$\Gamma = 0.5$, o sistema convergiu mais rapidamente, com menor erro, porém com
+maiores oscilações. Observou-se overflow numérico para valores $\Gamma > 10$.
+
+A \textbf{simulação \#3.1} testou o algoritmo para diferentes sistemas,
+modelos de tranferência: $Y/U = \frac{5}{s^3+3s^2+3s+1}$ e $Y/U =
+\frac{5}{s^3-3s^2-3s+1}$. Para a planta instável, o algoritmo leva muito tempo
+para convergir e as oscilações são maiores.
+
+A \textbf{simulação \#3.2} testou o algoritmo para diferentes entradas: $r_1 =
+\text{sin}(t) + \text{sin}(3t)$ e $r_2 = \text{sin}(t) + 2\text{sin}(5t)$.
+Apesar de a entrada de alta frequência exigir mais do sistema, mostrando maior
+lentidão para a convergência, os parâmetros convergiram mais rapidamente.
+
